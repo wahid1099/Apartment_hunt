@@ -1,6 +1,8 @@
 import React from 'react';
 import bg from '../../Images/Rectangle 13.png'
 import {Form,FormControl,Button} from 'react-bootstrap';
+import Zoom from 'react-reveal/Zoom';
+
 const TopBanner = () => {
     const bannerbg={
         background: `url('${bg}')`,
@@ -13,6 +15,8 @@ const TopBanner = () => {
     }
     return (
         <div style={bannerbg}>
+            <Zoom top>
+
             <h1 className="text-white pt-5">FIND YOUR HOUSE RENT</h1>
 
             <Form className="d-flex w-50 mx-auto pt-5">
@@ -24,7 +28,7 @@ const TopBanner = () => {
         />
         <Button variant="success" className="w-25">Find Now</Button>
       </Form>
-            
+            </Zoom>
         </div>
     );
 };

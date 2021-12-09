@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container,Row,Col,Card } from 'react-bootstrap';
+import Fade from 'react-reveal/Fade';
 
 const Services = () => {
     const servicestyle={
@@ -7,6 +8,7 @@ const Services = () => {
     }
     return (
         <div style={servicestyle}>
+            <Fade bottom>
             <h5 className="pt-5">Service</h5>
             <h2>We're an agency tailored to all</h2>
 <h2>clients' needs that always delivers</h2>
@@ -51,7 +53,7 @@ const Services = () => {
 
 </Row>
 </Container>
-            
+            </Fade>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { Container,Row,Col,Card ,Button,Spinner} from 'react-bootstrap';
 import { FaMapMarkerAlt,FaBed ,FaBath} from "react-icons/fa";
 import Fade from 'react-reveal/Fade';
+import {Link} from "react-router-dom";
 
 const Apartments = () => {
     const[apartments,setApartments]=useState([]);
@@ -60,7 +61,10 @@ const Apartments = () => {
  
         <div className="d-flex">
             <h3><strong>${apartment.price}</strong></h3>
-         <Button className="ms-auto" variant="success">View Details</Button>
+            <Link to={`/aparments/${apartment._id}`} className="ms-auto">
+                <Button  variant="success">View Details</Button>
+            </Link>
+
         </div>
           </Card.Text>
         </Card.Body>

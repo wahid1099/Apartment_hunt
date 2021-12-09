@@ -1,21 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
-import Menu from '../src/Components/NavBar/Menu';
-import TopBanner from './Components/TopBanner/TopBanner';
-import Footer from '../src/Components/Footer/Footer';
-import Services from './Components/Services/Services';
-import Apartments from './Components/Apartments/Apartments';
-import AuthProvider from './Context/AuthProvider';
+
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import HomePage from "./Page/HomePage";
+import ApartmentDetailsPage from "./Page/ApartmentDetailsPage";
+import RegisterPage from "./Page/RegisterPage";
+import LoginPage from "./Page/LoginPage";
+import AuthProvider from "./Context/AuthProvider";
+
 function App() {
   return (
     <div className="App">
-     <AuthProvider>
-          <Menu></Menu>
-        <TopBanner></TopBanner>
-        <Apartments></Apartments>
-        <Services></Services>
-        <Footer></Footer>
+        <AuthProvider>
+      <BrowserRouter>
+      <Routes>
+          <Route exact path="/" element={<HomePage/>}>
+            </Route>
+          <Route exact path="/home" element={<HomePage/>}>
+          </Route>
+          <Route exact path="/register" element={<RegisterPage/>}>
+          </Route>
+          <Route exact path="/login" element={<LoginPage/>}>
+          </Route>
 
+          <Route path={`/aparments/:aparmentId`} element={<ApartmentDetailsPage/>} >
+
+          </Route>
+
+      </Routes>
+      
+      </BrowserRouter>
         </AuthProvider>
     </div>
   );

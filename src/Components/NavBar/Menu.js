@@ -1,6 +1,11 @@
 import React from 'react';
 import {Navbar,Container,Nav,NavDropdown,Form,FormControl,Button} from 'react-bootstrap';
+import {Link} from "react-router-dom";
+import UseAuth from "../../Hooks/UseAuth";
 const Menu = () => {
+
+    const { user, logout } = UseAuth();
+
     return (
 
         <Navbar  expand="lg">
@@ -21,13 +26,33 @@ const Menu = () => {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">About</Nav.Link>
-              <Nav.Link href="#action2">Services</Nav.Link>
-              <Nav.Link href="#action2">Concerns</Nav.Link>
-              <Nav.Link href="#action2">Event</Nav.Link>
-              <Nav.Link href="#action2">Contact</Nav.Link>
-              <Nav.Link href="#action2"><Button variant="success">Log In</Button></Nav.Link>
+                <Nav.Link ><Link to="/" className="text-decoration-none text-black">Home</Link></Nav.Link>
+                <Nav.Link ><Link to="/about" className="text-decoration-none text-black">About</Link></Nav.Link>
+                <Nav.Link ><Link to="/" className="text-decoration-none text-black">Services</Link></Nav.Link>
+                <Nav.Link ><Link to="/" className="text-decoration-none text-black">Concerns</Link></Nav.Link>
+                <Nav.Link ><Link to="/" className="text-decoration-none text-black">Event</Link></Nav.Link>
+                <Nav.Link ><Link to="/" className="text-decoration-none text-black">Contact</Link></Nav.Link>
+
+
+                {
+                    user?.email ?
+
+<div>
+                            <Button onClick={logout} variant="success" className="me-2">
+
+                                {user.displayName}</Button>
+                           <Button onClick={logout} variant="success" className="ms-2">
+
+                           Logout</Button>
+</div>
+                        :
+                        <Nav.Link ><Button variant="success">
+                            <Link to="/login" className="text-decoration-none text-white">LogIn</Link></Button>
+                        </Nav.Link>
+                }
+
+
+
             
              
             </Nav>
