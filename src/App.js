@@ -7,6 +7,8 @@ import ApartmentDetailsPage from "./Page/ApartmentDetailsPage";
 import RegisterPage from "./Page/RegisterPage";
 import LoginPage from "./Page/LoginPage";
 import AuthProvider from "./Context/AuthProvider";
+import Myorders from "./Components/User/Myorders";
+import DashboardHome from "./Components/Dashboard/DashboardHome";
 
 function App() {
   return (
@@ -22,6 +24,15 @@ function App() {
           </Route>
           <Route exact path="/login" element={<LoginPage/>}>
           </Route>
+
+          <Route path="/dashboard" element={<DashboardHome/>}>
+              <Route exact path="/dashboard/myorders" element={<Myorders/>}>
+              </Route>
+
+          </Route>
+
+
+
 
           <Route path={`/aparments/:aparmentId`} element={<ApartmentDetailsPage/>} >
 

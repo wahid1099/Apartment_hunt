@@ -92,7 +92,7 @@ const UseFirebase = () => {
     //getting admin data
 
     useEffect(() => {
-        fetch(`https://murmuring-tundra-70437.herokuapp.com/users/${user.email}`)
+        fetch(`http://localhost:7000/users/${user.email}`)
             .then(res => res.json())
             .then(data => setAdmin(data.admin))
 
@@ -114,7 +114,7 @@ const UseFirebase = () => {
     const saveUser=(email,displayName,method)=>{
         const user={email,displayName};
         console.log(user);
-        fetch('https://murmuring-tundra-70437.herokuapp.com/users',{
+        fetch('http://localhost:7000/users',{
             method:method,
             headers:{
                 'content-type':'application/json'

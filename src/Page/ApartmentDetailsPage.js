@@ -1,17 +1,72 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {Col, Container, Row, Carousel, Form, FloatingLabel,Button} from "react-bootstrap";
+import {Col, Container, Row, Carousel, Form, FloatingLabel, Button, Spinner,Alert} from "react-bootstrap";
 import Menu from "../Components/NavBar/Menu";
+import UseAuth from "../Hooks/UseAuth";
 
 const ApartmentDetailsPage = () => {
-         const {aparmentId}=useParams();
+    const {aparmentId}=useParams();
+    const [isLoading, setIsloading] = useState(true);
     const [aparmentdetails,setApartmentDetails]=useState({});
+    const [success,setSuccess]=useState(false);
+    const[userdetails,setUserdetails]=useState('');
+
+    const{user}=UseAuth();
+    //loading specific apratment with id
     useEffect(()=>{
         fetch(`http://localhost:7000/apartments/${aparmentId}`)
             .then(res=>res.json())
-            .then(data=>setApartmentDetails(data))
-    },[])
-    console.log(aparmentdetails);
+            .then(data=>(
+                    setApartmentDetails(data),
+                        setIsloading(false)
+
+            ))
+    },[]);
+    const handleOnBlur=e=>{
+        const field=e.target.name;
+        const value=e.target.value;
+        const newuserdata={...userdetails};
+        newuserdata[field]=value;
+        setUserdetails(newuserdata);
+
+    }
+    const useremail=user.email;
+    const username=user.displayName;
+    const comment=userdetails.comment;
+    const phone=userdetails.phone;
+
+    const{_id,name,img,price,location}=aparmentdetails || {}
+
+    let apartmentid=_id;
+
+
+    const apartmentbooking={apartmentid,useremail,username,phone,comment,name,img,price,location};
+    console.log(apartmentbooking);
+
+    const handlebooking = e => {
+    //booking a apartment
+    fetch('http://localhost:7000/bookapartment', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(apartmentbooking)
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.insertedId) {
+                setSuccess(true);
+                e.target.reset();
+            }
+        })
+
+
+    e.preventDefault();
+}
+
+     if(isLoading){
+        return <Spinner animation="border" />;
+    }
     return (
         <div>
             <Menu></Menu>
@@ -96,22 +151,22 @@ const ApartmentDetailsPage = () => {
                     </Col>
                     <Col md={3} sm={12}>
                         <div style={{background:'#F4F4F4'}} className="p-4">
-                            <Form>
+                            <Form onSubmit={handlebooking}>
                                 <Form.Group className="mb-2 mt-3" controlId="formBasicEmail">
 
-                                    <Form.Control type="email" placeholder="Enter email" />
+                                    <Form.Control type="email" placeholder="Enter email"  name="email"  defaultValue={user.email}/>
 
                                 </Form.Group>
 
                                 <Form.Group className="mb-2 mt-3" controlId="formBasicEmail">
 
-                                    <Form.Control type="text" placeholder="Enter Phone" />
+                                    <Form.Control type="text" placeholder="Enter Phone" name="phone" onBlur={handleOnBlur} />
 
                                 </Form.Group>
 
                                 <Form.Group className="mb-2 mt-3" controlId="formBasicEmail">
 
-                                    <Form.Control type="text" placeholder="Enter Name" />
+                                    <Form.Control type="text" placeholder="Enter Name"  name="name"  defaultValue={user.displayName}/>
 
                                 </Form.Group>
                                 <FloatingLabel controlId="floatingTextarea2" label="Comments">
@@ -119,9 +174,13 @@ const ApartmentDetailsPage = () => {
                                         as="textarea"
                                         placeholder="Leave a comment here"
                                         style={{ height: '100px' }}
+                                        name="comment"
+                                        onBlur={handleOnBlur}
                                     />
                                 </FloatingLabel>
-                           <Button variant="success" className="mt-2">Request Booking</Button>
+                                {success && <Alert variant="success">Apartment Booked successfully!</Alert>}
+
+                                <Button variant="success" className="mt-2" type="submit">Request Booking</Button>
                             </Form>
                         </div>
                     </Col>

@@ -1,10 +1,13 @@
 import React from 'react';
-import {Navbar,Container,Nav,NavDropdown,Form,FormControl,Button} from 'react-bootstrap';
+import {Navbar,Container,Nav,NavDropdown,Form,FormControl,Button,Dropdown} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import UseAuth from "../../Hooks/UseAuth";
+import {FaUserAlt,MdLogin} from "react-icons/all";
+import { AiOutlineLogout } from "react-icons/ai";
+
 const Menu = () => {
 
-    const { user, logout } = UseAuth();
+    const { user, logout ,admin} = UseAuth();
 
     return (
 
@@ -34,27 +37,34 @@ const Menu = () => {
                 <Nav.Link ><Link to="/" className="text-decoration-none text-black">Contact</Link></Nav.Link>
 
 
-                {
-                    user?.email ?
+                {user.accessToken ?
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <FaUserAlt/>
+                        </Dropdown.Toggle>
 
-<div>
-                            <Button onClick={logout} variant="success" className="me-2">
+                        <Dropdown.Menu>
+                            {user?.accessToken  &&  <span className="text-primary ms-3"><strong>Hello {user.displayName } </strong> </span>  }
 
-                                {user.displayName}</Button>
-                           <Button onClick={logout} variant="success" className="ms-2">
+                            {user?.accessToken  &&     <Dropdown.Item as={Link} to="/dashboard">DashBoard</Dropdown.Item>}
 
-                           Logout</Button>
-</div>
-                        :
-                        <Nav.Link ><Button variant="success">
-                            <Link to="/login" className="text-decoration-none text-white">LogIn</Link></Button>
-                        </Nav.Link>
+                            <Nav.Link href="#deets"  className="text-black" as={Link} to="/logout"><Button variant="danger" onClick={logout}><AiOutlineLogout/> Log Out</Button></Nav.Link>
+                        </Dropdown.Menu>
+
+                    </Dropdown> :
+
+                    <Nav.Link ><Button variant="success">
+                        <Link to="/login" className="text-decoration-none text-white"><MdLogin/>LogIn</Link></Button>
+                    </Nav.Link>
+
                 }
 
 
 
-            
-             
+
+
+
+
             </Nav>
             
           </Navbar.Collapse>
